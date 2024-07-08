@@ -1,0 +1,46 @@
+[
+  {
+    "type": "checkbox-group",
+    "label": "Multiple Response",
+    "name": "checkbox-group-1720358741736-0",
+    "values": [
+      {
+        "label": "Response 1",
+        "value": "1",
+        "selected": false
+      },
+      {
+        "label": "Response 2",
+        "value": "2",
+        "selected": true
+      },
+      {
+        "label": "Response 3",
+        "value": "3",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "type": "radio-group",
+    "label": "Multiple Choice",
+    "name": "radio-group-1720359824255-0",
+    "values": [
+      {
+        "label": "Response 1",
+        "value": "1",
+        "selected": false
+      },
+      {
+        "label": "Response 2",
+        "value": "2",
+        "selected": true
+      },
+      {
+        "label": "Response 3",
+        "value": "3",
+        "selected": false
+      }
+    ]
+  }
+]
