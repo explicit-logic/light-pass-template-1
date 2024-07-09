@@ -135,4 +135,8 @@ declare global {
       values: Option[];
     }
   }
+
+  interface PageConfig {
+    formData: BlocksList;
+  }
 }

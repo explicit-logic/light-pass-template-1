@@ -1,3 +1,4 @@
+'use client';
 
 // Constants
 import { VARIANTS } from './constants';

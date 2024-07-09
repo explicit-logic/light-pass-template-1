@@ -11,7 +11,7 @@ export async function readSlugs(locale: string) {
   return directories;
 }
 
-export async function readOneFile(locale: string, slug: string) {
+export async function readOnePage(locale: string, slug: string) {
   const fullPath = path.join(process.cwd(), 'data', locale, slug, `${slug}.json`);
   const str = await fs.readFile(fullPath, 'utf-8');
   const file = parse(str);
@@ -19,14 +19,15 @@ export async function readOneFile(locale: string, slug: string) {
   return file;
 }
 
-export async function readAllFiles(locale: string): Promise<Record<string, BlocksList>> {
+export async function readAllBlocks(locale: string): Promise<Record<string, BlocksList>> {
   const slugs = await readSlugs(locale);
 
   const allBlocks: Record<string, BlocksList> = {};
 
   for (const slug of slugs) {
-    const file = await readOneFile(locale, slug);
-    allBlocks[slug] = file;
+    const file = await readOnePage(locale, slug);
+    const { formData } = file;
+    allBlocks[slug] = formData;
   }
 
   return allBlocks;
@@ -35,8 +36,10 @@ export async function readAllFiles(locale: string): Promise<Record<string, Block
 
 function parse(raw: string) {
   try {
-    return JSON.parse(raw) as BlocksList;
+    return JSON.parse(raw) as PageConfig;
   } catch {
-    return [];
+    return {
+      formData: [],
+    };
   }
 }

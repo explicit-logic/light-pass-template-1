@@ -11,9 +11,9 @@ import { TYPES } from '@/constants/block';
 // Types
 import type { Formik } from '../QuestionForm.types';
 
-export function useQuestionRender(formik: Formik, { blocks }: { blocks: BlocksList }) {
+export function useQuestionRender(formik: Formik, { formData }: { formData: BlocksList }) {
 
-  return blocks.map((block, idx) => {
+  return formData.map((block, idx) => {
 
     if (block.type === TYPES.HEADER) {
       return <h1 key={idx} className="text-3xl font-extrabold dark:text-white">{block.label}</h1>;

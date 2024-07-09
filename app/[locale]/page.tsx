@@ -9,7 +9,7 @@ import IdentityForm from '@/components/organisms/IdentityForm';
 // import Link from 'next/link';
 
 // Lib
-import { readSlugs } from '@/lib/server/blocks';
+import { readSlugs } from '@/lib/server/page';
 
 export default async function Home({
   params: { locale },

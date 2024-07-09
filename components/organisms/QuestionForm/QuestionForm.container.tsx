@@ -21,13 +21,13 @@ import { useRouter, useParams } from 'next/navigation';
 import type { ContainerProps, Values } from './QuestionForm.types';
 
 function QuestionFormContainer(props: ContainerProps) {
-  const { blocks } = props;
+  const { formData } = props;
 
   const { locale, slug } = useParams<{ locale: string, slug: string }>();
 
   const router = useRouter();
 
-  const validationSchema = getValidationSchema(blocks);
+  const validationSchema = getValidationSchema(formData);
 
   const nextSlug = getNextSlug(slug);
   const last = Boolean(!nextSlug);
@@ -63,7 +63,7 @@ function QuestionFormContainer(props: ContainerProps) {
   }
 
   return (
-    <QuestionFormView formik={formik} goBack={goBack} blocks={blocks} last={last} />
+    <QuestionFormView formik={formik} goBack={goBack} formData={formData} last={last} />
   );
 }
 

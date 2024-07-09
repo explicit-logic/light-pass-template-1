@@ -2,7 +2,7 @@
 import { Suspense } from 'react';
 
 // Lib
-import { readOneFile, readSlugs } from '@/lib/server/blocks';
+import { readOnePage, readSlugs } from '@/lib/server/page';
 
 // Components
 import ControlBar from '@/components/molecules/ControlBar';
@@ -23,9 +23,10 @@ export async function generateMetadata({
 }: {
   params: { locale: string, slug: string }
 }) {
-  const blocks = await readOneFile(locale, slug);
+  const page = await readOnePage(locale, slug);
+  const { formData } = page;
 
-  const header = blocks.find((block) => block.type === BLOCK_TYPES.HEADER);
+  const header = formData.find((block) => block.type === BLOCK_TYPES.HEADER);
   const title = header?.label ?? slug;
 
   return {
@@ -35,7 +36,8 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: { locale: string, slug: string } }) {
   const { locale, slug } = params;
-  const blocks = await readOneFile(locale, slug);
+  const page = await readOnePage(locale, slug);
+  const { formData } = page;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -45,7 +47,7 @@ export default async function Page({ params }: { params: { locale: string, slug:
             <Suspense><ControlBar silent /></Suspense>
           </div>
           <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-            <QuestionForm blocks={blocks} />
+            <QuestionForm formData={formData} />
           </article>
         </div>
       </section>

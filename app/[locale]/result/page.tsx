@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 // Lib
-import { readAllFiles } from '@/lib/server/blocks';
+import { readAllBlocks } from '@/lib/server/page';
 
 // Components
 import ControlBar from '@/components/molecules/ControlBar';
@@ -21,7 +21,7 @@ export default async function Page({
   unstable_setRequestLocale(locale);
   const t = await getTranslations('Result');
 
-  const allBlocks = await readAllFiles(locale);
+  const allBlocks = await readAllBlocks(locale);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
