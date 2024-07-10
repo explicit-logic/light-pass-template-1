@@ -7,6 +7,7 @@ import { readOnePage, readSlugs } from '@/lib/server/page';
 // Components
 import ControlBar from '@/components/molecules/ControlBar';
 import QuestionForm from '@/components/organisms/QuestionForm';
+import TimeOverModal from '@/components/molecules/TimeOverModal';
 
 // Constants
 import { TYPES as BLOCK_TYPES } from '@/constants/block';
@@ -48,6 +49,7 @@ export default async function Page({ params }: { params: { locale: string, slug:
           </div>
           <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
             <QuestionForm formData={formData} />
+            <TimeOverModal />
           </article>
         </div>
       </section>

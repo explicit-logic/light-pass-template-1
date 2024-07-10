@@ -36,7 +36,10 @@
   "Question": {
     "next": "Next question",
     "back": "Go Back",
-    "finish": "Finish"
+    "finish": "Finish",
+    "seeResults": "See results",
+    "timeOver": "Time is over",
+    "timeRunningOut": "Time is running out"
   },
   "Result": {
     "headline": "Well Done!",
