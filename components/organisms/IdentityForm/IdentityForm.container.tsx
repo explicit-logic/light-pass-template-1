@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 // Lib
 import { setIdentity } from '@/store/identityStorage';
 import { setSlugs } from '@/store/slugStorage';
+import { toast } from '@/lib/client/toaster';
 
 // Config
 import { getQuizConfig } from '@/lib/client/getQuizConfig';
@@ -20,6 +21,7 @@ import { STATES } from '@/constants/connection';
 import { getOrderHandler } from '@/helpers/getOrderHandler';
 import { getInitialValues } from './helpers/getInitialValues';
 import { getValidationSchema } from './helpers/getValidationSchema';
+import { getEnabled as getCountdownEnabled, getTimeLimit, establishEndTime } from '@/lib/client/countdown/helpers';
 
 // Senders
 import { sendIdentity } from '@/lib/client/peer/senders/sendIdentity';
@@ -55,27 +57,38 @@ function IdentityFormContainer(props: ContainerProps) {
   }, [locale, router]);
 
   async function onSubmit(values: Values) {
-    if (!slugs.length) return;
+    try {
+      if (!slugs.length) return;
 
-    setIdentity(values);
+      setIdentity(values);
 
-    const orderedSlugs = orderHandler(slugs);
-    setSlugs(orderedSlugs);
-    const [slug] = orderedSlugs;
+      const orderedSlugs = orderHandler(slugs);
+      setSlugs(orderedSlugs);
+      const [slug] = orderedSlugs;
 
-    if (state === STATES.ONLINE) {
-      const email = values.email ?? '';
-      await sendIdentity({
-        email,
-        group: values.group,
-        name: values.name,
-        context: {
-          slugs: orderedSlugs,
-        }
-      });
+      if (state === STATES.ONLINE) {
+        const email = values.email ?? '';
+        await sendIdentity({
+          email,
+          group: values.group,
+          name: values.name,
+          context: {
+            slugs: orderedSlugs,
+          }
+        });
+      }
+
+      const countdownEnabled = getCountdownEnabled();
+
+      if (countdownEnabled) {
+        const timeLimit = getTimeLimit();
+        establishEndTime(timeLimit.duration);
+      }
+
+      router.replace(`/${locale}/questions/${slug}`);
+    } catch (error) {
+      toast.error((error as Error).message);
     }
-
-    router.replace(`/${locale}/questions/${slug}`);
   }
 
   return (

@@ -14,6 +14,7 @@
     "copyimages": "node ./bin/copy-images.mjs"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
     "eventemitter3": "^5.0.1",
     "formik": "^2.4.5",
     "mini-svg-data-uri": "^1.4.4",

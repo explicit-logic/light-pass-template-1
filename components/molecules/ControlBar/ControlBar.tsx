@@ -3,7 +3,9 @@
 import { useEffect } from 'react';
 
 // Components
+import Countdown from '@/components/atoms/Countdown';
 import DarkThemeToggle from '@/components/atoms/DarkThemeToggle';
+import Flasher from '@/components/atoms/Flasher';
 
 // Constants
 import { EVENTS } from '@/constants/connection';
@@ -15,7 +17,6 @@ import { toast } from '@/lib/client/toaster';
 
 // Hooks
 import { useConnection } from '@/hooks/useConnection';
-import Flasher from '@/components/atoms/Flasher';
 
 function ControlBar({ silent = false }: Readonly<{ silent?: boolean }>) {
   const { state } = useConnection();
@@ -56,10 +57,12 @@ function ControlBar({ silent = false }: Readonly<{ silent?: boolean }>) {
   }, [silent]);
 
   return (
-    <div className={`transition ease-in-out duration-500 ${silent ? 'opacity-40 hover:opacity-100' : ''} inline-flex justify-between h-9 py-1 pl-3 pr-2 mb-7 divide-x divide-gray-400 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white`}>
+    <div className={`transition ease-in-out duration-500 ${silent ? 'opacity-40 hover:opacity-100' : ''} inline-flex justify-between h-9 py-1 pl-3 pr-2 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white`}>
       <div className="pr-2">
         <Flasher silent={silent} state={state} />
       </div>
+      {/* <div className="border-l border-gray-400"/> */}
+      <Countdown />
       <div className="pl-2">
         <DarkThemeToggle />
       </div>
