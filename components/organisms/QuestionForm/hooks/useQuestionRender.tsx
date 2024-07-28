@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 // Components
-// import TokenImage from '../tokenComponents/TokenImage';
+import BlockImage from '../blockComponents/BlockImage';
 import MultipleResponse from '../questionComponents/MultipleResponse';
 import MultipleChoice from '../questionComponents/MultipleChoice';
 
@@ -17,6 +17,10 @@ export function useQuestionRender(formik: Formik, { formData }: { formData: Bloc
 
     if (block.type === TYPES.HEADER) {
       return <h1 key={idx} className="text-3xl font-extrabold dark:text-white">{block.label}</h1>;
+    }
+
+    if (block.type === TYPES.IMAGE) {
+      return <BlockImage key={idx} block={block} />;
     }
 
     if (block.type === TYPES.RADIO_GROUP) {

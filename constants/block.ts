@@ -1,6 +1,7 @@
 export const TYPES = Object.freeze({
   HEADER: 'header',
   CHECKBOX_GROUP: 'checkbox-group',
+  IMAGE: 'image',
   RADIO_GROUP: 'radio-group',
 });
 

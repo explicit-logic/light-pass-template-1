@@ -103,7 +103,7 @@ declare global {
 
   type QuestionsList = Question[];
 
-  type Block = (Blocks.Header | Blocks.CheckboxGroup | Blocks.RadioGroup);
+  type Block = (Blocks.Header | Blocks.CheckboxGroup | Blocks.Image | Blocks.RadioGroup);
   type InteractionBlock = (Blocks.CheckboxGroup | Blocks.RadioGroup);
 
   type BlocksList = Block[];
@@ -119,6 +119,14 @@ declare global {
       type: typeof BLOCK_TYPES.HEADER;
       subtype: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
       label: string;
+    }
+
+    interface Image {
+      type: typeof BLOCK_TYPES.IMAGE;
+      src: string;
+      label: string;
+      mimetype: string;
+      size: string;
     }
 
     interface CheckboxGroup {

@@ -1,17 +1,25 @@
 // Modules
 import Image from 'next/image';
 
+// Config
+import { getQuizConfig } from '@/lib/client/getQuizConfig';
+
+// Hooks
+import { useParams } from 'next/navigation';
+
 export type Props = {
-  token: {
-    href: string;
-    text: string;
-    title?: string;
-  };
+  block: Blocks.Image;
 };
 
-export default function TokenImage(props: Props) {
-  const { token } = props;
-  const caption = token.text ?? token.title;
+const config = getQuizConfig();
+
+export default function BlockImage(props: Props) {
+  const { block } = props;
+  const caption = block.label ?? '';
+
+  const { locale, slug } = useParams<{ locale: string, slug: string }>();
+
+  const url = `${config.basePath}/images/${locale}/${slug}/${block.src}`;
 
   return (
     <figure className="flex flex-wrap justify-center">
@@ -21,7 +29,7 @@ export default function TokenImage(props: Props) {
         height={0}
         priority
         sizes="100vw"
-        src={token.href}
+        src={url}
         style={{ width: '100%', height: 'auto' }}
         width={0}
       />

@@ -1,14 +1,9 @@
 {
   "formData": [
     {
-      "type": "header",
-      "subtype": "h1",
-      "label": "Page 2"
-    },
-    {
-      "type": "checkbox-group",
-      "label": "Multiple Response",
-      "name": "checkbox-group-1720491806251-0",
+      "type": "radio-group",
+      "label": "Multiple Choice",
+      "name": "radio-group-1721724218951-0",
       "values": [
         {
           "label": "Response 1",
@@ -26,6 +21,14 @@
           "selected": false
         }
       ]
+    },
+    {
+      "type": "image",
+      "label": "My img",
+      "name": "image-1721812090461-0",
+      "src": "qym39n.png",
+      "mimetype": "image/png",
+      "size": "505472"
     }
   ]
 }
