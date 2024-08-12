@@ -5,21 +5,32 @@ import { useTranslations } from 'next-intl';
 // Components
 import Button, { VARIANTS } from '@/components/atoms/Button';
 
+// Config
+import { getQuizConfig } from '@/lib/client/getQuizConfig';
+
 // Helpers
 import { downloadJson } from '@/helpers/downloadJson';
+import { generateUID } from '@/helpers/generateUID';
 
 // Lib
 import { getAllAnswers } from '@/store/answerStorage';
 import { getIdentity } from '@/store/identityStorage';
+
+// Store
+import { getTime } from '@/store/stopwatchStorage';
+
+const config = getQuizConfig();
 
 function DownloadAnswers() {
   const t = useTranslations('Result');
 
   const onDownload = () => {
     downloadJson({
+      ...getTime(),
+      quizId: config.quizId,
       identity: getIdentity(),
       answers: getAllAnswers(),
-    }, 'answers.json');
+    }, `${generateUID()}.json`);
   };
 
   return (

@@ -6,7 +6,7 @@ import { memo, useEffect, useState } from 'react';
 
 // Hooks
 import { useRouteLoading } from '@/hooks/useRouteLoading';
-import { useQuestionRender } from './hooks/useQuestionRender';
+import { useBlockRender } from './hooks/useBlockRender';
 
 // Types
 import type { ViewProps } from './QuestionForm.types';
@@ -37,7 +37,7 @@ const getNextButtonContent = ({ tCommon, tQuestion }: TranslationParams, { last,
 };
 
 function QuestionFormView(props: ViewProps) {
-  const { formik, goBack, last, formData } = props;
+  const { formik, interactive, goBack, last, formData } = props;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -49,7 +49,8 @@ function QuestionFormView(props: ViewProps) {
   const tCommon = useTranslations('Common');
   const tQuestion = useTranslations('Question');
 
-  const component = useQuestionRender(formik, { formData });
+  const component = useBlockRender(formik, { formData });
+  const disabled = interactive && (loading || !formik.isValid || !formik.dirty);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -58,7 +59,7 @@ function QuestionFormView(props: ViewProps) {
       {/* Action Buttons */}
       {
         isClient && (
-          <div className="flex flex-col mb-8 lg:mb-16 justify-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+          <div className="flex flex-col mb-8 lg:mb-16 justify-center space-y-4 sm:flex-row sm:space-y-1 sm:space-x-4">
             <Button
               type="button"
               variant={VARIANTS.alternative}
@@ -68,7 +69,7 @@ function QuestionFormView(props: ViewProps) {
             </Button>
             <Button
               type="submit"
-              disabled={(loading || !formik.isValid || !formik.dirty)}
+              disabled={disabled}
               variant={VARIANTS.default}
             >
               {getNextButtonContent({ tCommon, tQuestion }, { last, loading })}

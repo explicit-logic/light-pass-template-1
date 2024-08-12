@@ -19,24 +19,26 @@ import { getEnabled as getCountdownEnabled, getTimeLimit, establishEndTime } fro
 import { getValidationSchema } from './helpers/getValidationSchema';
 import { getEndTime, clearEndTime } from '@/lib/client/countdown/store';
 
+// Hooks
+import { useRouter, useParams } from 'next/navigation';
+
 // Senders
 import { sendProgress } from '@/lib/client/peer/senders/sendProgress';
 
-// Hooks
-import { useRouter, useParams } from 'next/navigation';
+// Store
+import { setEndTime } from '@/store/stopwatchStorage';
 
 // Types
 import type { ContainerProps, Values } from './QuestionForm.types';
 
 function QuestionFormContainer(props: ContainerProps) {
-  const { formData } = props;
+  const { formData, interactive } = props;
 
   const { locale, slug } = useParams<{ locale: string, slug: string }>();
 
   const router = useRouter();
 
   const validationSchema = getValidationSchema(formData);
-
   const tQuestion = useTranslations('Question');
 
   const nextSlug = getNextSlug(slug);
@@ -105,6 +107,7 @@ function QuestionFormContainer(props: ContainerProps) {
       }
 
       if (last) {
+        setEndTime(new Date().valueOf());
         clearEndTime();
         sessionStorage.setItem('finished', 'true');
         router.replace(`/${locale}/result`);
@@ -117,7 +120,7 @@ function QuestionFormContainer(props: ContainerProps) {
   }
 
   return (
-    <QuestionFormView formik={formik} goBack={goBack} formData={formData} last={last} />
+    <QuestionFormView formik={formik} interactive={interactive} goBack={goBack} formData={formData} last={last} />
   );
 }
 

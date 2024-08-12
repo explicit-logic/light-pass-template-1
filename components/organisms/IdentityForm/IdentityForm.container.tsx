@@ -23,12 +23,15 @@ import { getInitialValues } from './helpers/getInitialValues';
 import { getValidationSchema } from './helpers/getValidationSchema';
 import { getEnabled as getCountdownEnabled, getTimeLimit, establishEndTime } from '@/lib/client/countdown/helpers';
 
-// Senders
-import { sendIdentity } from '@/lib/client/peer/senders/sendIdentity';
-
 // Hooks
 import { useConnection } from '@/hooks/useConnection';
 import { useParams, useRouter } from 'next/navigation';
+
+// Senders
+import { sendIdentity } from '@/lib/client/peer/senders/sendIdentity';
+
+// Store
+import { setStartTime } from '@/store/stopwatchStorage';
 
 // Types
 import type { ContainerProps, Values } from './IdentityForm.types';
@@ -78,8 +81,9 @@ function IdentityFormContainer(props: ContainerProps) {
         });
       }
 
-      const countdownEnabled = getCountdownEnabled();
+      setStartTime(new Date().valueOf());
 
+      const countdownEnabled = getCountdownEnabled();
       if (countdownEnabled) {
         const timeLimit = getTimeLimit();
         establishEndTime(timeLimit.duration);

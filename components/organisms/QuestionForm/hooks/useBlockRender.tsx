@@ -11,7 +11,7 @@ import { TYPES } from '@/constants/block';
 // Types
 import type { Formik } from '../QuestionForm.types';
 
-export function useQuestionRender(formik: Formik, { formData }: { formData: BlocksList }) {
+export function useBlockRender(formik: Formik, { formData }: { formData: BlocksList }) {
 
   return formData.map((block, idx) => {
 
