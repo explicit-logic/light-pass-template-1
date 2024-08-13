@@ -4,7 +4,11 @@ import type { TYPES } from '@/constants/message';
 // Store
 import { getReceiver, getClientId } from './store';
 
-export async function send(type: keyof typeof TYPES, data: Message['data']) {
+export type Params = {
+  quizId: number;
+  language: string;
+};
+export async function send(type: keyof typeof TYPES, params: Params, data: Message['data']) {
   const clientId = getClientId();
   const receiver = getReceiver();
 
@@ -19,6 +23,7 @@ export async function send(type: keyof typeof TYPES, data: Message['data']) {
   }
 
   await receiver.send({
+    ...params,
     clientId,
     type,
     data,

@@ -23,7 +23,7 @@ const TIMEOUT = 60_000;
 
 let connected = false;
 
-type Params = { locale: string, pathname: string, receiverId: string };
+type Params = { language: string, pathname: string, quizId: number, receiverId: string };
 
 type Callbacks = {
   onClose?: () => void,
@@ -32,7 +32,7 @@ type Callbacks = {
   onMessage?: (message: Message) => void,
 };
 
-export async function connect({ locale, pathname, receiverId }: Params, callbacks?: Callbacks) {
+export async function connect({ language, pathname, quizId, receiverId }: Params, callbacks?: Callbacks) {
   const {
     onClose = () => {},
     onError = () => {},
@@ -89,7 +89,7 @@ export async function connect({ locale, pathname, receiverId }: Params, callback
       }
     });
 
-  await sendConnect({ clientId: cachedClientId ?? undefined, locale, pathname });
+  await sendConnect({ clientId: cachedClientId ?? undefined, language, pathname, quizId });
 
   await waitForConnect();
 

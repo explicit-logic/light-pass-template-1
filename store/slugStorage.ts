@@ -43,6 +43,17 @@ export function getPreviousSlug(currentSlug: string): string {
   return previousSlug;
 }
 
+export function getProgress(currentSlug: string) {
+  if (!isClient) {
+    return { current: 0, total: 0 };
+  }
+
+  const slugs = getSlugs();
+  const currentIndex = slugs.indexOf(currentSlug);
+
+  return { current: currentIndex + 1, total: slugs.length };
+}
+
 export function setSlugs(slugs: string[]) {
   if (isClient) {
     sessionStorage.setItem(key, JSON.stringify(slugs));

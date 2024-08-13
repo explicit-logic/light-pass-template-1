@@ -2,8 +2,8 @@
 import { TYPES } from '@/constants/message';
 
 // Helpers
-import { send } from '../send';
+import { type Params, send } from '../send';
 
-export async function sendIdentity(data: Messages.Identity['data']) {
-  await send(TYPES.identity, data);
+export async function sendIdentity(params: Params, data: Messages.Identity['data']) {
+  await send(TYPES.identity, params, data);
 }

@@ -1,5 +1,8 @@
 'use client';
 
+// Config
+import { getQuizConfig } from '@/lib/client/getQuizConfig';
+
 // Modules
 import { useEffect } from 'react';
 
@@ -10,6 +13,8 @@ import { getReceiver, /*getSender,*/ getReceiverId, setReceiverId } from '@/lib/
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
 let lastPathname: string;
+
+const config = getQuizConfig();
 
 function Connection() {
   const searchParams = useSearchParams();
@@ -31,7 +36,7 @@ function Connection() {
     const establishConnection = async () => {
       const { connect } = await import('../../lib/client/peer/connect');
 
-      await connect({ locale, pathname, receiverId });
+      await connect({ language: locale, pathname, quizId: config.quizId, receiverId });
     };
     if (typeof navigator !== 'undefined') {
       void establishConnection();

@@ -71,14 +71,20 @@ function IdentityFormContainer(props: ContainerProps) {
 
       if (state === STATES.ONLINE) {
         const email = values.email ?? '';
-        await sendIdentity({
-          email,
-          group: values.group,
-          name: values.name,
-          context: {
-            slugs: orderedSlugs,
+        await sendIdentity(
+          {
+            quizId: config.quizId,
+            language: locale,
+          },
+          {
+            email,
+            group: values.group,
+            name: values.name,
+            context: {
+              slugs: orderedSlugs,
+            }
           }
-        });
+        );
       }
 
       setStartTime(new Date().valueOf());

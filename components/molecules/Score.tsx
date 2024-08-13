@@ -1,7 +1,11 @@
 'use client';
+
 // Modules
 import { useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
+
+// Config
+import { getQuizConfig } from '@/lib/client/getQuizConfig';
 
 // Lib
 import { getAllAnswers } from '@/store/answerStorage';
@@ -11,6 +15,11 @@ import { sendComplete } from '@/lib/client/peer/senders/sendComplete';
 
 // Constants
 import { TYPES, INTERACTIVE_TYPES } from '@/constants/block';
+
+// Hooks
+import { useParams } from 'next/navigation';
+
+const config = getQuizConfig();
 
 function checkPassed(block: InteractionBlock, answer: string | string[]): boolean {
   if (block.type === TYPES.RADIO_GROUP) {
@@ -48,15 +57,23 @@ let didInit = false;
 function Score(props: { allBlocks: Record<string, BlocksList> }) {
   const { allBlocks } = props;
 
+  const { locale } = useParams<{ locale: string }>();
+
   useEffect(() => {
     if (didInit) return;
     const allAnswers = getAllAnswers();
 
     didInit = true;
-    void sendComplete({
-      result: allAnswers,
-    });
-  }, []);
+    void sendComplete(
+      {
+        language: locale,
+        quizId: config.quizId,
+      },
+      {
+        result: allAnswers,
+      }
+    );
+  }, [locale]);
 
 
   const { passed, total } = useMemo(() => {

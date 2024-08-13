@@ -8,7 +8,7 @@ import { identifyThemeMode } from '@/helpers/identifyThemeMode';
 // Store
 import { getReceiver } from '../store';
 
-export async function sendConnect({ clientId, locale, pathname }: { clientId?: string, locale: string, pathname: string }) {
+export async function sendConnect({ clientId, language, pathname, quizId }: { clientId?: string, language: string, pathname: string, quizId: number }) {
   const receiver = getReceiver();
 
   if (!receiver) {
@@ -18,14 +18,15 @@ export async function sendConnect({ clientId, locale, pathname }: { clientId?: s
 
   await receiver.send({
     type: TYPES.connect,
+    quizId,
+    language,
     data: {
       userAgent: navigator.userAgent,
       clientId,
       platform: detectPlatform(),
-      locale,
       pathname,
       theme: identifyThemeMode(),
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     },
   } as Messages.Connect);
 }

@@ -2,8 +2,8 @@
 import { TYPES } from '@/constants/message';
 
 // Helpers
-import { send } from '../send';
+import { type Params, send } from '../send';
 
-export async function sendMessage(data: Messages.Message['data']) {
-  await send(TYPES.message, data);
+export async function sendMessage(params: Params, data: Messages.Message['data']) {
+  await send(TYPES.message, params, data);
 }

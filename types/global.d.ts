@@ -15,7 +15,9 @@ declare global {
 
     interface Complete {
       clientId: string;
+      language: string;
       type: typeof MESSAGE_TYPES.complete;
+      quizId: number;
 
       data: {
         result: object;
@@ -23,22 +25,25 @@ declare global {
     }
 
     interface Connect {
+      language: string;
       type: typeof MESSAGE_TYPES.connect;
+      quizId: number;
 
       data: {
         userAgent: string,
         clientId?: string,
-        locale: string,
         pathname: string,
         platform: Platform,
         theme: 'auto' | 'dark' | 'light',
-        timeZone: string,
+        timezone: string,
       };
     }
 
     interface Identity {
       clientId: string;
+      language: string;
       type: typeof MESSAGE_TYPES.identity;
+      quizId: number;
 
       data: {
         email: string;
@@ -65,7 +70,9 @@ declare global {
 
     interface Message {
       clientId: string;
+      language: string;
       type: typeof MESSAGE_TYPES.message;
+      quizId: number;
 
       data: {
         text: string;
@@ -74,11 +81,15 @@ declare global {
 
     interface Progress {
       clientId: string;
+      language: string;
       type: typeof MESSAGE_TYPES.progress;
+      quizId: number;
 
       data: {
         answer: object;
+        current: number;
         page: string;
+        total: number;
       };
     }
   }

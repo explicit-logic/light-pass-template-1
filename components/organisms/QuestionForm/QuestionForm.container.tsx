@@ -3,8 +3,11 @@ import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useTranslations } from 'next-intl';
 
+// Config
+import { getQuizConfig } from '@/lib/client/getQuizConfig';
+
 // Lib
-import { getNextSlug, getPreviousSlug } from '@/store/slugStorage';
+import { getNextSlug, getPreviousSlug, getProgress } from '@/store/slugStorage';
 import { setAnswersBySlug } from '@/store/answerStorage';
 import { toast } from '@/lib/client/toaster';
 
@@ -31,6 +34,8 @@ import { setEndTime } from '@/store/stopwatchStorage';
 // Types
 import type { ContainerProps, Values } from './QuestionForm.types';
 
+const config = getQuizConfig();
+
 function QuestionFormContainer(props: ContainerProps) {
   const { formData, interactive } = props;
 
@@ -43,6 +48,8 @@ function QuestionFormContainer(props: ContainerProps) {
 
   const nextSlug = getNextSlug(slug);
   const last = Boolean(!nextSlug);
+
+  const progress = getProgress(slug);
 
   const formik = useFormik({
     initialValues: {},
@@ -91,10 +98,17 @@ function QuestionFormContainer(props: ContainerProps) {
     try {
       setAnswersBySlug(slug, values);
 
-      await sendProgress({
-        answer: values,
-        page: slug,
-      });
+      await sendProgress(
+        {
+          quizId: config.quizId,
+          language: locale,
+        },
+        {
+          ...progress,
+          answer: values,
+          page: slug,
+        }
+      );
 
       const countdownEnabled = getCountdownEnabled();
 
