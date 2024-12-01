@@ -1,7 +1,17 @@
+import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist';
+
 import type { TYPES as BLOCK_TYPES } from '@/constants/block';
 import type { TYPES as QUESTION_TYPES } from '@/constants/question';
 
 declare global {
+  // This declares the value of `injectionPoint` to TypeScript.
+  // `injectionPoint` is the string that will be replaced by the
+  // actual precache manifest. By default, this string is set to
+  // `"self.__SW_MANIFEST"`.
+  interface WorkerGlobalScope extends SerwistGlobalConfig {
+    __SW_MANIFEST: (PrecacheEntry | string)[] | undefined;
+  }
+
   type Message = (Messages.Complete | Messages.Connect | Messages.Identity | Messages.Init | Messages.Message | Messages.Progress);
 
   type Platform  = {

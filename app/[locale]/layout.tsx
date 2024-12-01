@@ -14,7 +14,7 @@ import { getLocales } from '@/lib/server/getLocales';
 import { ConnectionProvider } from '@/providers/ConnectionProvider';
 
 // Types
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Connection from '@/components/atoms/Connection';
 
 export async function generateMetadata({params: { locale }}: Readonly<{
@@ -23,24 +23,51 @@ export async function generateMetadata({params: { locale }}: Readonly<{
   const t = await getTranslations({locale, namespace: 'Metadata'});
 
   return {
-    generator: 'Next.js',
     applicationName: t('applicationName'),
-    referrer: 'origin-when-cross-origin',
-    keywords: t('keywords'),
-    creator: t('creator'),
-    publisher: t('publisher'),
     title: {
       default: t('title.default'),
       template: t('title.template'),
     },
     description: t('description'),
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: t('title.default'),
+      // startUpImage: [],
+    },
     formatDetection: {
       email: false,
       address: false,
       telephone: false,
     },
+    openGraph: {
+      type: 'website',
+      siteName: t('applicationName'),
+      title: {
+        default: t('title.default'),
+        template: t('title.template'),
+      },
+      description: t('description'),
+    },
+    twitter: {
+      card: 'summary',
+      title: {
+        default: t('title.default'),
+        template: t('title.template'),
+      },
+      description: t('description'),
+    },
+    generator: 'Next.js',
+    referrer: 'origin-when-cross-origin',
+    keywords: t('keywords'),
+    creator: t('creator'),
+    publisher: t('publisher'),
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: '#FFFFFF',
+};
 
 export async function generateStaticParams() {
   const locales = await getLocales();

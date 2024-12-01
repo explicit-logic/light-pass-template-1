@@ -1,5 +1,6 @@
 import path from 'node:path';
 import createNextIntlPlugin from 'next-intl/plugin';
+import withSerwistInit from '@serwist/next';
 
 // import quizConfig from './data/quiz.json' with { type: 'json' };
 import { getQuizConfig } from './lib/server/getQuizConfig.mjs';
@@ -7,6 +8,14 @@ import { getQuizConfig } from './lib/server/getQuizConfig.mjs';
 const quizConfig = getQuizConfig();
 
 const withNextIntl = createNextIntlPlugin();
+
+const withSerwist = withSerwistInit({
+  // Note: This is only an example. If you use Pages Router,
+  // use something else that works, such as "service-worker/index.ts".
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
+  reloadOnOnline: true,
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -36,4 +45,4 @@ const nextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withSerwist(withNextIntl(nextConfig));
