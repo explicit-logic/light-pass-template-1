@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,9 +20,13 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": [
+      // This allows Serwist to type `window.serwist`.
+      "@serwist/next/typings"
+    ]
   },
   "typeRoots": ["./types", "./node_modules/@types"],
   "include": ["next-env.d.ts", ".eslintrc.js", "**/*.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.js"],
-  "exclude": ["node_modules", ".next", ".vercel", "out"]
+  "exclude": ["node_modules", ".next", ".vercel", "light-pass-template-1", "public/sw.js"]
 }
