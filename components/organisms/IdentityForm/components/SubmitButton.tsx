@@ -1,8 +1,5 @@
 // Types
-import type { ViewProps, Values } from '../IdentityForm.types';
-
-// Modules
-import { connect, type FormikContextType } from 'formik';
+import type { ViewProps } from '../IdentityForm.types';
 
 // Components
 import LoadingIcon from '@/components/atoms/LoadingIcon';
@@ -17,11 +14,12 @@ import { useRouteLoading } from '@/hooks/useRouteLoading';
 
 type Props = {
   fields: ViewProps['fields'],
+  locked: boolean,
   tCommon: (t: string) => string,
   tHome: (t: string) => string,
 };
 
-const checkDisabled = ({ dirty, fields, isValid, loading }: { dirty: boolean, fields: ViewProps['fields'], isValid: boolean, loading: boolean }) => {
+const checkDisabled = ({ fields, loading, locked }: { fields: ViewProps['fields'], loading: boolean, locked: boolean }) => {
   if (loading) {
     return true;
   }
@@ -30,15 +28,12 @@ const checkDisabled = ({ dirty, fields, isValid, loading }: { dirty: boolean, fi
     return false;
   }
 
-  return (!isValid || !dirty);
+  return locked;
 };
 
-function SubmitButton({ fields, formik, tCommon, tHome }: Props & { formik: FormikContextType<Values> }) {
+function SubmitButton({ fields, locked, tCommon, tHome }: Props) {
   const loading = useRouteLoading();
   const { state } = useConnection();
-
-  const { dirty, isValid } = formik;
-
 
   return (
     <button
@@ -46,7 +41,7 @@ function SubmitButton({ fields, formik, tCommon, tHome }: Props & { formik: Form
       className={
         `${state === STATES.ONLINE ? 'bg-blue-700 dark:bg-blue-600 enabled:hover:bg-blue-800 enabled:dark:hover:bg-blue-700 focus:ring-blue-300 dark:focus:ring-blue-800' : 'bg-gray-400 enabled:hover:bg-gray-300 dark:bg-gray-700 enabled:dark:hover:bg-gray-600 focus:ring-gray-200 dark:focus:ring-gray-500'} inline-flex justify-center items-center py-3.5 px-5 text-white font-medium rounded-lg text-sm me-2 mb-2 focus:ring-4 focus:outline-none disabled:cursor-not-allowed`
       }
-      disabled={checkDisabled({ dirty, fields, isValid, loading })}
+      disabled={checkDisabled({ fields, loading, locked })}
     >{
         loading
           ? (<><LoadingIcon />{tCommon('loading')}</>)
@@ -56,4 +51,4 @@ function SubmitButton({ fields, formik, tCommon, tHome }: Props & { formik: Form
   );
 }
 
-export default connect<Props, Values>(SubmitButton);
+export default SubmitButton;

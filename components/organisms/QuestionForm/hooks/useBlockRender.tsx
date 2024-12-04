@@ -9,9 +9,9 @@ import MultipleChoice from '../questionComponents/MultipleChoice';
 import { TYPES } from '@/constants/block';
 
 // Types
-import type { Formik } from '../QuestionForm.types';
+import type { Register } from '../QuestionForm.types';
 
-export function useBlockRender(formik: Formik, { formData }: { formData: BlocksList }) {
+export function useBlockRender(register: Register, { formData }: { formData: BlocksList }) {
 
   return formData.map((block, idx) => {
 
@@ -24,11 +24,11 @@ export function useBlockRender(formik: Formik, { formData }: { formData: BlocksL
     }
 
     if (block.type === TYPES.RADIO_GROUP) {
-      return <MultipleChoice key={idx} formik={formik} block={block} />;
+      return <MultipleChoice key={idx} register={register} block={block} />;
     }
 
     if (block.type === TYPES.CHECKBOX_GROUP) {
-      return <MultipleResponse key={idx} formik={formik} block={block} />;
+      return <MultipleResponse key={idx} register={register} block={block} />;
     }
   });
 }

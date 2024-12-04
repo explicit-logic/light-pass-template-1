@@ -1,6 +1,5 @@
 // Modules
 import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 // Lib
@@ -9,15 +8,19 @@ import { readAllBlocks } from '@/lib/server/page';
 // Components
 import ControlBar from '@/components/molecules/ControlBar';
 import DownloadAnswers from '@/components/molecules/DownloadAnswers';
-// import Score from '@/components/molecules/Score';
+import Score from '@/components/molecules/Score';
 
-const Score = dynamic(() => import('@/components/molecules/Score'), { ssr: false });
+export default async function Page(
+  props: Readonly<{
+    params: { locale: string }
+  }>
+) {
+  const params = props.params;
 
-export default async function Page({
-  params: { locale },
-}: Readonly<{
-  params: { locale: string }
-}>) {
+  const {
+    locale
+  } = params;
+
   unstable_setRequestLocale(locale);
   const t = await getTranslations('Result');
 

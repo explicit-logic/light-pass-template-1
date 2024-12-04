@@ -75,7 +75,6 @@ function Score(props: { allBlocks: Record<string, BlocksList> }) {
     );
   }, [locale]);
 
-
   const { passed, total } = useMemo(() => {
     const allAnswers = getAllAnswers();
 

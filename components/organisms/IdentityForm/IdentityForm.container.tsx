@@ -46,7 +46,7 @@ function IdentityFormContainer(props: ContainerProps) {
 
   const { locale } = useParams<{ locale: string }>();
 
-  const initialValues = getInitialValues(config.fields);
+  const defaultValues = getInitialValues(config.fields);
   const validationSchema = getValidationSchema(config.fields);
 
   const router = useRouter();
@@ -103,7 +103,7 @@ function IdentityFormContainer(props: ContainerProps) {
 
   return (
     <IdentityFormView
-      initialValues={initialValues}
+      defaultValues={defaultValues}
       fields={config.fields}
       validationSchema={validationSchema}
       onSubmit={onSubmit}

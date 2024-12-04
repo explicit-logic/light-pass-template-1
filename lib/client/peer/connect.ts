@@ -125,7 +125,7 @@ function promiseWithTimeout<T = void>(timeout: number, callback: (resolve: (valu
       },
       (error) => {
         clearTimeout(timer);
-        reject(error);
+        reject(error as Error);
       }
     );
   });
@@ -137,7 +137,7 @@ function waitForConnect() {
     (function waitFor() {
       i++;
       if (connected) return resolve(connected);
-      if (i > 1000) return reject();
+      if (i > 1000) return reject(new Error());
       setTimeout(waitFor, 100);
     })();
   });

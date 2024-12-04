@@ -1,6 +1,5 @@
 'use client';
 import { useEffect } from 'react';
-import { useFormik } from 'formik';
 import { useTranslations } from 'next-intl';
 
 // Config
@@ -50,12 +49,6 @@ function QuestionFormContainer(props: ContainerProps) {
   const last = Boolean(!nextSlug);
 
   const progress = getProgress(slug);
-
-  const formik = useFormik({
-    initialValues: {},
-    onSubmit,
-    validationSchema,
-  });
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -134,7 +127,7 @@ function QuestionFormContainer(props: ContainerProps) {
   }
 
   return (
-    <QuestionFormView formik={formik} interactive={interactive} goBack={goBack} formData={formData} last={last} />
+    <QuestionFormView interactive={interactive} goBack={goBack} formData={formData} last={last} onSubmit={onSubmit} validationSchema={validationSchema} />
   );
 }
 

@@ -4,6 +4,9 @@ import * as yup from 'yup';
 // Constants
 import { INTERACTIVE_TYPES } from '@/constants/block';
 
+// Types
+import type { Values } from '../QuestionForm.types';
+
 export function getValidationSchema(blocks: BlocksList) {
   const schema: yup.ObjectShape = {};
 
@@ -13,5 +16,5 @@ export function getValidationSchema(blocks: BlocksList) {
     schema[name] = yup.mixed().required();
   }
 
-  return yup.object().shape(schema);
+  return yup.object().shape(schema) as yup.ObjectSchema<Values>;
 }

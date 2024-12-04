@@ -3,6 +3,8 @@
 // Modules
 import { useTranslations } from 'next-intl';
 import { memo, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 // Hooks
 import { useRouteLoading } from '@/hooks/useRouteLoading';
@@ -37,7 +39,7 @@ const getNextButtonContent = ({ tCommon, tQuestion }: TranslationParams, { last,
 };
 
 function QuestionFormView(props: ViewProps) {
-  const { formik, interactive, goBack, last, formData } = props;
+  const { interactive, goBack, last, formData, onSubmit, validationSchema } = props;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -45,15 +47,21 @@ function QuestionFormView(props: ViewProps) {
     setIsClient(true);
   }, []);
 
+  const { register, handleSubmit, formState } = useForm({
+    defaultValues: {},
+    resolver: yupResolver(validationSchema),
+  });
+  const { isDirty, isValid  } = formState;
+
   const loading = useRouteLoading();
   const tCommon = useTranslations('Common');
   const tQuestion = useTranslations('Question');
 
-  const component = useBlockRender(formik, { formData });
-  const disabled = interactive && (loading || !formik.isValid || !formik.dirty);
+  const component = useBlockRender(register, { formData });
+  const disabled = interactive && (loading || !isValid || !isDirty);
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col space-y-8 mb-8">{component}</div>
 
       {/* Action Buttons */}

@@ -17,9 +17,17 @@ import { ConnectionProvider } from '@/providers/ConnectionProvider';
 import type { Metadata, Viewport } from 'next';
 import Connection from '@/components/atoms/Connection';
 
-export async function generateMetadata({params: { locale }}: Readonly<{
-  params: { locale: string }
-}>): Promise<Metadata> {
+export async function generateMetadata(
+  props: Readonly<{
+    params: { locale: string }
+  }>
+): Promise<Metadata> {
+  const params = props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({locale, namespace: 'Metadata'});
 
   return {
@@ -75,30 +83,35 @@ export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default async function RootLayout({
-  children,
-  params: { locale },
-}: Readonly<{
-  children: React.ReactNode;
-  params: { locale: string }
-}>) {
+export default async function RootLayout(
+  props: Readonly<{
+    children: React.ReactNode;
+    params: { locale: string }
+  }>
+) {
+  const params = props.params;
+
+  const {
+    locale
+  } = params;
+
+  const {
+    children
+  } = props;
+
   unstable_setRequestLocale(locale);
   const messages = await getMessages({ locale });
 
   return (
-    <>
-      <head>
-        <HeadScript locale={locale} />
-      </head>
-      <body className="bg-white dark:bg-gray-900">
-        <Toaster />
-        <Suspense><Connection /></Suspense>
-        <NextIntlClientProvider messages={messages}>
-          <ConnectionProvider>
-            {children}
-          </ConnectionProvider>
-        </NextIntlClientProvider>
-      </body>
-    </>
+    <div className="bg-white dark:bg-gray-900">
+      <HeadScript locale={locale} />
+      <Toaster />
+      <Suspense><Connection /></Suspense>
+      <NextIntlClientProvider messages={messages}>
+        <ConnectionProvider>
+          {children}
+        </ConnectionProvider>
+      </NextIntlClientProvider>
+    </div>
   );
 }

@@ -45,5 +45,10 @@ module.exports = {
     'key-spacing': ['error', { beforeColon: false, afterColon: true, mode: 'strict' }],
     quotes: [2, 'single'],
     'quote-props': ['error', 'as-needed'],
+    '@typescript-eslint/no-misused-promises': [2, {
+      checksVoidReturn: {
+        attributes: false
+      }
+    }]
   }
 };

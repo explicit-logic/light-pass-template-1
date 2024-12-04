@@ -11,11 +11,17 @@ import IdentityForm from '@/components/organisms/IdentityForm';
 // Lib
 import { readSlugs } from '@/lib/server/page';
 
-export default async function Home({
-  params: { locale },
-}: Readonly<{
-  params: { locale: string }
-}>) {
+export default async function Home(
+  props: Readonly<{
+    params: { locale: string }
+  }>
+) {
+  const params = props.params;
+
+  const {
+    locale
+  } = params;
+
   unstable_setRequestLocale(locale);
   const slugs = await readSlugs(locale);
   const t = await getTranslations('Home');

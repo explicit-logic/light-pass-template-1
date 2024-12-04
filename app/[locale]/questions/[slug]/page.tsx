@@ -22,11 +22,18 @@ export async function generateStaticParams({ params: { locale } }: { params: { l
   return params;
 }
 
-export async function generateMetadata({
-  params: { locale, slug },
-}: {
-  params: { locale: string, slug: string }
-}) {
+export async function generateMetadata(
+  props: {
+    params: { locale: string, slug: string }
+  }
+) {
+  const params = props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const page = await readOnePage(locale, slug);
   const { formData } = page;
 
@@ -38,7 +45,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: { params: { locale: string, slug: string } }) {
+export default async function Page(props: { params: Promise<{ locale: string, slug: string }> }) {
+  const params = await props.params;
   const { locale, slug } = params;
   const page = await readOnePage(locale, slug);
   const { formData } = page;

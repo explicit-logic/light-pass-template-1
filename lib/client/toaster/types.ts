@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 export type ToastType =  'blank' | 'error' | 'info' | 'loading' | 'message' | 'success' | 'warning';
 export type ToastPosition =
   | 'top-left'

@@ -1,22 +1,23 @@
 import type { ReactNode } from 'react';
 import type { Toast, ToastPosition } from '@/lib/client/toaster/types';
 
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 
 type Handlers = {
   updateHeight: (toastId: string, height: number) => void;
   startPause: () => void;
   endPause: () => void;
   calculateOffset: (toast: Toast, opts?: {
-      reverseOrder?: boolean | undefined;
-      gutter?: number | undefined;
-      defaultPosition?: ToastPosition | undefined;
-  } | undefined) => number;
+      reverseOrder?: boolean;
+      gutter?: number;
+      defaultPosition?: ToastPosition;
+  }) => number;
 };
 
 function ToastWrapper(props: { children: ReactNode, handlers: Handlers, t: Toast }) {
   const { children, handlers, t } = props;
   const { calculateOffset, updateHeight } = handlers;
+  const node = useRef<HTMLDivElement>(null);
 
   const offset = calculateOffset(t, {
     reverseOrder: false,
@@ -24,19 +25,15 @@ function ToastWrapper(props: { children: ReactNode, handlers: Handlers, t: Toast
     defaultPosition: 'top-right',
   });
 
-  const ref = (el: HTMLDivElement) => {
-    if (el && typeof t.height !== 'number') {
-      const height = el.getBoundingClientRect().height;
-      updateHeight(t.id, height);
-    }
-
-    return el;
-  };
+  if (node && node.current && typeof t.height !== 'number'){
+    const height = node.current.getBoundingClientRect().height;
+    updateHeight(t.id, height);
+  }
 
   return (
     <div
       id={`t-${t.id}`}
-      ref={ref}
+      ref={node}
       aria-live="polite"
       role="status"
       style={{
